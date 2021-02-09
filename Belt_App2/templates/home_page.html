@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h1>Welcome, {{confirmed_user.first_name}} {{ confirmed_user.last_name}}</h1>
+    <p>You have successfully created an account, (or logged back in)</p>
+    <br>
+
+    <div id="my_container">
+        <h2 id="allquotes">ALL QUOTES</h2>
+        {% for quote in all_quotes %}
+            <p id="author"> {{ quote.author }}:</p>
+            <p id="quote">"{{ quote.quote }}"</p>
+            <p>Posted by:<a href="/quote/{{quote.id}}">{{ quote.creator.first_name }} {{ quote.creator.last_name }}</a></p>
+                {% if confirmed_user.id == quote.creator.id %}
+                <form action="/quote/{{quote.id}}/delete" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="delete">                       
+                </form>
+                {% endif %}
+                <br>
+
+        {% endfor %}
+        <br>
+    </div>
+
+
+
+    <div id="my_container2">
+        <h1 id="add">ADD A QUOTE!!</h1>
+        {% if messages %}
+        <ul class="messages">    
+        {% for message in messages %}    
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+        {% endfor %}
+        </ul>
+        {% endif %}
+        <form action="/quote/create" method="POST">
+        {% csrf_token %}
+            <label for="Author">Author:</label>
+            <input type="text" id="Author" name="author" class="register">
+            <br>
+            <label for="quotes">Quote:</label>
+            <input type="text" id="quotes" name="quote" class="register">
+            <br>
+            <input type="submit" id="submit" value="Add Quote">
+        </form>
+        <a href="/logout">Logout</a>
+        <br>
+        <a href="/account_edit">Edit My Account</a>
+    </div>
+</body>
+</html>

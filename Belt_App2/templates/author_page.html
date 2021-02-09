@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Author Page</title>
+
+</head>
+<body>
+    <h1>{{quote.creator.first_name}} {{ quote.creator.last_name}} Quotes!</h1>
+
+    {% for myquote in all_quotes %}
+    <!-- this area is why I didn't achieve a red belt, i finally got it at 5hrs, 44 minutes! but for my own notes, what did I do here? I passed all_notes variable in my context dictionary that rendered this page. so my for loop is able to run thorugh all quotes. in addition, remeber, 'quote' is a variable name acrryting the creator.id to this page. so, then the IF statement is asking if the creator.id of the quote instance we're looking at, also matches the id of the creator we brought with us to this page, then run the if statement. -->
+        {% if myquote.creator.id == quote.creator.id %}
+            <p> {{ myquote.author }}: {{ myquote.quote }}</p>
+            <br>
+        {% endif %}
+    {% endfor %}
+    <button onclick="location.href='http://localhost:8000/results/'" type="button">Back to homepage</button> 
+
+    
+</body>
+</html>
